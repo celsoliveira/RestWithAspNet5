@@ -4,6 +4,9 @@ using RestWithAspNet5.Business;
 using RestWithAspNet5.Business.Implementations;
 using RestWithAspNet5.Repository;
 using RestWithAspNet5.Repository.Implementations;
+using MySqlConnector;
+using EvolveDb;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var appName = "REST API's RESTful from 0 to Azure with ASP.NET Core 8 and Docker";
@@ -21,6 +24,12 @@ builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(
     connection,
     new MySqlServerVersion(new Version(8, 0, 29)))
 );
+
+//Migration
+if (builder.Environment.IsDevelopment())
+{
+    MigrateDatabase(connection);      
+}
 
 //Versioning API
 builder.Services.AddApiVersioning();
@@ -41,3 +50,22 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void MigrateDatabase(string connection)
+{
+    try
+    {
+        var evolveConnection = new MySqlConnection(connection);
+        var evolve = new Evolve(evolveConnection, Log.Information)
+        {
+            Locations = new List<string> { "db/migrations", "db/dataset" },
+            IsEraseDisabled = true,
+        };
+        evolve.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Log.Error("Database migration failed", ex);
+        throw;
+    }
+}
