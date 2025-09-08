@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using RestWithAspNet5.Model.Context;
-using RestWithAspNet5.Services;
-using RestWithAspNet5.Services.Implementations;
+using RestWithAspNet5.Business;
+using RestWithAspNet5.Business.Implementations;
+using RestWithAspNet5.Repository;
+using RestWithAspNet5.Repository.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 var appName = "REST API's RESTful from 0 to Azure with ASP.NET Core 8 and Docker";
@@ -20,9 +22,13 @@ builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(
     new MySqlServerVersion(new Version(8, 0, 29)))
 );
 
+//Versioning API
+builder.Services.AddApiVersioning();
 
-// adicionando services para injeção de dependência
-builder.Services.AddScoped<IPersonService, PersonService>();
+
+//Injeção de Dependencia
+builder.Services.AddScoped<IPersonBusiness, PersonBusiness>();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 
 var app = builder.Build();
 

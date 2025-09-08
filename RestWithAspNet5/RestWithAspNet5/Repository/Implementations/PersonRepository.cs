@@ -1,15 +1,12 @@
-﻿using System;
-using RestWithAspNet5.Model;
+﻿using RestWithAspNet5.Model;
 using RestWithAspNet5.Model.Context;
 
-namespace RestWithAspNet5.Services.Implementations
+namespace RestWithAspNet5.Repository.Implementations
 {
-    public class PersonService : IPersonService
+    public class PersonRepository : IPersonRepository
     {
-        private volatile int count;
-
         private MySQLContext _context;
-        public PersonService(MySQLContext context)
+        public PersonRepository(MySQLContext context)
         {
             _context = context;
         }
@@ -76,7 +73,7 @@ namespace RestWithAspNet5.Services.Implementations
             }
         }
 
-        private bool Exists(long id)
+        public bool Exists(long id)
         {
             return _context.Persons.Any(p => p.Id.Equals(id));
         }
