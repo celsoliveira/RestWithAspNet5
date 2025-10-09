@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RestWithASPNET.Model;
 
 namespace RestWithAspNet5.Model.Context
 {
@@ -15,5 +16,6 @@ namespace RestWithAspNet5.Model.Context
         }
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Book> Books { get; set; }
     }
 }

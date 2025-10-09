@@ -2,11 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using RestWithAspNet5.Model.Context;
 using RestWithAspNet5.Business;
 using RestWithAspNet5.Business.Implementations;
-using RestWithAspNet5.Repository;
-using RestWithAspNet5.Repository.Implementations;
 using MySqlConnector;
 using EvolveDb;
 using Serilog;
+using RestWithAspNet5.Repository.Generic;
 
 var builder = WebApplication.CreateBuilder(args);
 var appName = "REST API's RESTful from 0 to Azure with ASP.NET Core 8 and Docker";
@@ -37,7 +36,9 @@ builder.Services.AddApiVersioning();
 
 //Injeção de Dependencia
 builder.Services.AddScoped<IPersonBusiness, PersonBusiness>();
-builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+builder.Services.AddScoped<IBookBusiness, BookBusiness>();
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
 var app = builder.Build();
 
