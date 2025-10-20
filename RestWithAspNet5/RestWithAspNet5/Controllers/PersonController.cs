@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using RestWithAspNet5.Model;
 using RestWithAspNet5.Business;
+using RestWithAspNet5.Data.VO;
 
 namespace RestWithAspNet5.Controllers
 {
@@ -35,7 +36,7 @@ namespace RestWithAspNet5.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Person person)
+        public IActionResult Post([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
 
@@ -43,7 +44,7 @@ namespace RestWithAspNet5.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Person person)
+        public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
 

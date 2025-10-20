@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RestWithAspNet5.Model;
 using RestWithAspNet5.Business;
 using RestWithASPNET.Model;
+using RestWithAspNet5.Data.VO;
 
 namespace RestWithAspNet5.Controllers
 {
@@ -36,19 +37,19 @@ namespace RestWithAspNet5.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Book person)
+        public IActionResult Post([FromBody] BookVO book)
         {
-            if (person == null) return BadRequest();
+            if (book == null) return BadRequest();
 
-            return Ok(_personBusiness.Create(person));
+            return Ok(_personBusiness.Create(book));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Book person)
+        public IActionResult Put([FromBody] BookVO book)
         {
-            if (person == null) return BadRequest();
+            if (book == null) return BadRequest();
 
-            return Ok(_personBusiness.Update(person));
+            return Ok(_personBusiness.Update(book));
         }
 
         [HttpDelete("{id}")]
